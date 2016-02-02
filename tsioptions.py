@@ -4,13 +4,13 @@
 # tsioptions.py - a very simple argument/option handler
 #
 # Copyright (c) 2016, Phil Maker
-# 
+#
 # All rights reserved.
-#    
-# Redistribution and use in source and binary forms, with or without 
-# modification, are permitted provided that the following conditions 
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
 # are met:
-# 
+#
 #  * Redistributions of source code must retain the above copyright
 #    notice, this list of conditions and the following disclaimer.
 #  * Redistributions in binary form must reproduce the above copyright
@@ -20,7 +20,7 @@
 #  * Neither the name of the copyright-owner nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
-#        
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 # LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,7 +38,7 @@
 
 This is intended to be the simplest possible option/argv
 imaginable. Comand line arguments are always in pairs and a dictionary
-is used to keep the values. 
+is used to keep the values.
 '''
 
 import sys
@@ -50,23 +50,23 @@ options = {}
 def set(defaults):
     '''set default values and process argv'''
     global options
-    options = defaults.copy() 
+    options = defaults.copy()
 
     # Note: sphinx-build passes its own arguments so ignore it
     if sys.argv[0].endswith('sphinx-build'):
         return
-        
+
     # update options
     if len(sys.argv[1:]) > 0:
         options.update([sys.argv[1:]])
         for o in options:
             if not (o in defaults):
-                print('fatal error: option', 
+                print('fatal error: option',
                       o, 'not defined arguments: see defaults')
                 for o in defaults:
                     print(o, defaults[o])
                 exit(101)
-    
+
     # finally display them
     if options['-show_options']:
         show()
@@ -79,9 +79,9 @@ def get(k):
 def show():
     '''print out the current options and defauts'''
     for o in sorted(options):
-        print('options ' + o.ljust(24) + ' ' + 
+        print('options ' + o.ljust(24) + ' ' +
               str(options[o]))
-     
+
 
 
 # finally call main (or profile it)

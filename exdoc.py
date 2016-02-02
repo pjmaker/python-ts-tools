@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# exdoc.py - just a python documentation example which was 
+# exdoc.py - just a python documentation example which was
 #    extracted from the web.
-# 
+#
 
 """Example Google style docstrings.
 
@@ -284,4 +284,3 @@ def main():
 
 if __name__ == '__main__':
     main
- 

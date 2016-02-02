@@ -66,10 +66,10 @@ import matplotlib.pyplot as plt
 import tsioptions as opts
 
 opts.set({
-    '-trace':False,
-    '-profile_main':False,
-    '-show_options':True,
-    '-test':1
+    '-trace': False,
+    '-profile_main': False,
+    '-show_options': True,
+    '-test': 1
 })
 
 # option setup
@@ -205,7 +205,7 @@ def tsread(fn):
     r = []
     for s in open(fn):
         t, v = s.split(',')
-        if n == 1: # skip the header line
+        if n == 1:  # skip the header line
             assert t == 't'
             # v is whatever,we don't check
         else:
@@ -445,7 +445,7 @@ def test1():
     Note
     '''
     print('* test1() - basic input and statistics for 1 series')
-    global df # we need global dataframe so showeval can see it.
+    global df  # we need global dataframe so showeval can see it.
     df = {}
     print('** read data/Test1.csv see contents below')
     print(open('data/Test1.csv').read())
@@ -466,7 +466,7 @@ def test1_2():
     Note
     '''
     print('* test1_2() - basic input and statistics for 2 series')
-    global df # we need global dataframe so showeval can see it
+    global df  # we need global dataframe so showeval can see it
     df = {}
     print('** read data/Test1.csv and data/Test2.csv see contents below')
     print(open('data/Test1.csv').read())
@@ -488,7 +488,7 @@ def test1_2():
     showeval("tsmean(df,'Test2')")
 
 def rest2():
-    df = makedt(getdf(['data/*SkyCam1*','data/*Fed3Pact*']))
+    df = makedt(getdf(['data/*SkyCam1*', 'data/*Fed3Pact*']))
 
 def rest():
     '''Just a block to keep scrap code in'''

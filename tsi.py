@@ -55,6 +55,7 @@ import glob
 import os
 import sys
 import pytz
+import argparse
 
 from matplotlib.backends.backend_pdf import PdfPages
 from math import isnan
@@ -67,14 +68,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-import tsioptions as opts
-
-opts.set({
-    '-trace': False,
-    '-profile_main': False,
-    '-show_options': True,
-    '-test': 1
-})
+argparser = argparse.ArgumentParser()
+argparser.add_argument("-trace", action="store_true", default=False)
+argparser.add_argument("-profile_main", action="store_true", default=False)
+argparser.add_argument("-test", type=int, default=1)
+args = argparser.parse_args()
 
 # option setup
 plt.style.use('ggplot')
@@ -415,7 +413,7 @@ def plotPdf(fn, **kwopts):
 # TODO: update to a better tracer sometime
 #
 
-if opts.get('-trace'):
+if args.trace:
     import sys
 
     def tracer(frame, event, arg, indent=[0]):
@@ -565,7 +563,7 @@ def rest():
 
 # finally call main (or profile it)
 if __name__ == '__main__':
-    if opts.get('-profile_main'):
+    if args.profile_main:
         profile('main()')
     else:
         main()

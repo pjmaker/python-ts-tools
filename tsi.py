@@ -75,7 +75,6 @@ argparser.add_argument("-test", type=int, default=1)
 args = argparser.parse_args()
 
 # option setup
-plt.style.use('ggplot')
 pd.options.display.width = 500
 
 

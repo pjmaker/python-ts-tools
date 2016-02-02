@@ -289,19 +289,19 @@ def ts2csv(fd):
 
 def ts2csvheader(fd):
     '''print the header line'''
-    print('t', end=',', file=fd)
+    print >>fd, 't,',
     for i in tsvars():
-        print(i, end=',', file=fd)
-    print('Remarks', file=fd)
+        print >>fd, i + ',',
+    print >> fd, 'Remarks'
 
 
 def ts2csvbody(fd):
     '''print the body'''
     for (when, state) in tsstates():
-        print(tformat(when), end=',', file=fd)
+        print >>fd, tformat(when) + ',',
         for v in tsvars():
-            print(state[v], end=',', file=fd)
-        print('', file=fd)
+            print >> fd, state[v] + ',',
+        print >>fd
 
 
 def limit(v, low, high):
@@ -445,43 +445,31 @@ def profile(c):
     p.sort_stats('cumulative').print_stats(20)
 
 
-# some 1 liners for testing
-def showeval(s):
-    '''print a string followed by its evaluation
-
-    Note that python does not have an uplevel(3tcl) command
-    like TCL and so need to use globals or the locals=dict
-    argument. There must be a better way.
-    '''
-    print(s, '->', eval(s))
-
-
 def main():
     '''Do the work'''
     test1_2()
 
 
 def test1():
-    '''run a simple test
-
-    Note
     '''
-    print('* test1() - basic input and statistics for 1 series')
-    global df  # we need global dataframe so showeval can see it.
-    df = {}
-    print('** read data/Test1.csv see contents below')
-    print(open('data/Test1.csv').read())
-    print("df = makedt(getdf(['data/Test1.csv']))")
-    df = makedt(getdf(['data/Test1.csv']))
-    showeval("print(df)")
-    showeval("print(df.describe())")
-    print('** statistics - N.B. weighting seems odd')
-    showeval("df['Test1'].mean() # wrongas expected")
-    showeval("df['Test1'].mean(weighted=df['dt']) # wrong")
-    showeval("df['Test1'].mean(weighted=df['tTest1']) # wrong")
-    showeval("(df['Test1']*df['tTest1']).sum()/df['tTest1'].sum() # ok")
-    showeval("tsmean(df,'Test1')")
+    run a simple test
 
+    test1() - basic input and statistics for 1 series'
+
+    ** read data/Test1.csv see contents below
+
+    >>> open('data/Test1.csv').read()
+    >>> df = makedt(getdf(['data/Test1.csv']))
+    >>> print(df)
+    >>> print(df.describe())
+
+    ** statistics - N.B. weighting seems odd
+
+    >>> df['Test1'].mean() # wrongas expected
+    >>> df['Test1'].mean(weighted=df['dt']) # wrong
+    >>> df['Test1'].mean(weighted=df['tTest1']) # wrong
+    >>> df['Test1']*df['tTest1']).sum()/df['tTest1'].sum() # ok
+    >>> tsmean(df,'Test1')
 
 def test1_2():
     '''run a simple test

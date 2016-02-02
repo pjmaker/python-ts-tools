@@ -376,7 +376,10 @@ def makedt(df):
     df['dt'] = (df['tvalue']-df['tvalue'].shift()).fillna(0).shift(-1)
     df['dt'] = df['dt'].apply(tdsecs)
     del df['tvalue']
-    f = lambda x: 0 if isnan(x[0]) else x[1]
+
+    def f(x):
+        return 0 if isnan(x[0]) else x[1]
+
     for v in tsvars():
         df['w' + v] = df[v] * df['dt']
         df['t' + v] = df[[v, 'dt']].apply(f, axis=1)

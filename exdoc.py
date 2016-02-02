@@ -278,6 +278,7 @@ class ExampleClass(object):
     def _private_without_docstring(self):
         pass
 
+
 def main():
     '''The main program'''
     print('hello')

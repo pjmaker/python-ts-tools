@@ -47,6 +47,7 @@ import sys
 options = {}
 '''dictionary of command line options'''
 
+
 def set(defaults):
     '''set default values and process argv'''
     global options
@@ -71,17 +72,18 @@ def set(defaults):
     if options['-show_options']:
         show()
 
+
 def get(k):
     '''return the value for an option'''
     global options
     return options[k]
+
 
 def show():
     '''print out the current options and defauts'''
     for o in sorted(options):
         print('options ' + o.ljust(24) + ' ' +
               str(options[o]))
-
 
 
 # finally call main (or profile it)

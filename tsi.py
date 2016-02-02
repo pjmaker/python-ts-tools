@@ -44,9 +44,7 @@ Example:
 TODO:
    #. Break this apart into individual components
 '''
-
 
-
 import datetime
 import time
 import calendar
@@ -75,6 +73,7 @@ opts.set({
 # option setup
 plt.style.use('ggplot')
 pd.options.display.width = 500
+
 
 # timestamp support
 def tparse(t):
@@ -118,6 +117,7 @@ def tparse(t):
     return iso8601.parse_date(t).timestamp()
     # return np.datetime64(t)
 
+
 def tformat(s):
     '''convert a float of seconds since epoch to an ISO8601 date
 
@@ -153,6 +153,7 @@ def tformat(s):
     return datetime.datetime.fromtimestamp(round(s, 3),
                                            pytz.UTC).isoformat('T')
 
+
 def tdsecs(td):
     '''convert a timedelta to a number in seconds
 
@@ -183,6 +184,7 @@ This is used as the basic representation for history of variables
 before we mangle it into the various pandas DataFrame representations.
 '''
 
+
 def tsvars():
     '''returns variables we have history for
 
@@ -190,6 +192,7 @@ def tsvars():
     [str]: sorted list of variable names
     '''
     return sorted(hists)
+
 
 def tsread(fn):
     '''read file fn and convert [(when, what)...]
@@ -215,6 +218,7 @@ def tsread(fn):
         n += 1
     return r
 
+
 def tsreadfiles(pat, rename):
     '''Read all files matching glob pat and rename var using rename
 
@@ -231,6 +235,7 @@ def tsreadfiles(pat, rename):
         var = rename(fn)
         hists[var] = tsread(fn)
 
+
 def tsevents():
     '''converts hists[] to [(when, var, what)...]
 
@@ -245,6 +250,7 @@ def tsevents():
     events.sort()
     # print('tsevents = ', events)
     return events
+
 
 def tsstates():
     '''converts hists to [when, {var->what}] by remembering state
@@ -275,10 +281,12 @@ def tsstates():
             states.append((when, state.copy()))
     return states
 
+
 def ts2csv(fd):
     '''print ts stat to fd'''
     ts2csvheader(fd)
     ts2csvbody(fd)
+
 
 def ts2csvheader(fd):
     '''print the header line'''
@@ -286,6 +294,7 @@ def ts2csvheader(fd):
     for i in tsvars():
         print(i, end=',', file=fd)
     print('Remarks', file=fd)
+
 
 def ts2csvbody(fd):
     '''print the body'''
@@ -295,17 +304,21 @@ def ts2csvbody(fd):
             print(state[v], end=',', file=fd)
         print('', file=fd)
 
+
 def limit(v, low, high):
     '''limit v between low and high'''
     return max(min(v, high), low)
+
 
 def scale(v, p=1):
     '''scale v by p'''
     return v*p
 
+
 def offset(v, o=0):
     '''offset v by o'''
     return v+o
+
 
 def fntovar(fn):
     '''Convert filename to variable name'''
@@ -315,9 +328,11 @@ def fntovar(fn):
     fn = fn.replace('.csv', '')
     return fn
 
+
 def tsmean(df, v):
     '''Return the time weighted average for v in DataFrame df'''
     return df['w' + v].sum()/df['t' + v].sum()
+
 
 def tssummary(df, v):
     '''Return a summary of the variable v in dataframe df.'''
@@ -326,6 +341,7 @@ def tssummary(df, v):
     s += str(round(tsmean(df, v), 3)) + '..'
     s += str(df[v].max())
     return s
+
 
 def getdf(pats):
     '''Return DataFrame from files matching members of pats.
@@ -339,6 +355,7 @@ def getdf(pats):
     # whence we need to disable the check
     # pylint:disable=maybe-no-member
     return pd.read_csv('tmpdata.csv', parse_dates=['t']).set_index('t')
+
 
 def makedt(df):
     '''Return a dataframe with new dt, w* and t* Series.
@@ -364,6 +381,7 @@ def makedt(df):
 
 from matplotlib.backends.backend_pdf import PdfPages
 
+
 def plotPdf(fn, **kwopts):
     print('plotPdf ' + fn)
     pp = PdfPages(fn)
@@ -373,7 +391,7 @@ def plotPdf(fn, **kwopts):
         dmax = calendar.monthrange(year, month)[1]
         for day in range(1, dmax-1):
             title = str(year) + '-' + str(month) + '-' + str(day)
-            print(' plotPdf ' +  title)
+            print(' plotPdf ' + title)
             global df
             for v in tsvars():
                 df[v].plot(kind='line',
@@ -416,6 +434,7 @@ if opts.get('-trace'):
 import cProfile
 import pstats
 
+
 def profile(c):
     '''profile code c
     Args:
@@ -425,6 +444,7 @@ def profile(c):
     p = pstats.Stats('tm-stats')
     p.sort_stats('cumulative').print_stats(20)
 
+
 # some 1 liners for testing
 def showeval(s):
     '''print a string followed by its evaluation
@@ -434,10 +454,12 @@ def showeval(s):
     argument. There must be a better way.
     '''
     print(s, '->', eval(s))
-
+
+
 def main():
     '''Do the work'''
     test1_2()
+
 
 def test1():
     '''run a simple test
@@ -459,6 +481,7 @@ def test1():
     showeval("df['Test1'].mean(weighted=df['tTest1']) # wrong")
     showeval("(df['Test1']*df['tTest1']).sum()/df['tTest1'].sum() # ok")
     showeval("tsmean(df,'Test1')")
+
 
 def test1_2():
     '''run a simple test
@@ -487,8 +510,10 @@ def test1_2():
     showeval("(df['Test2']*df['tTest2']).sum()/df['tTest2'].sum() # ok")
     showeval("tsmean(df,'Test2')")
 
+
 def rest2():
     df = makedt(getdf(['data/*SkyCam1*', 'data/*Fed3Pact*']))
+
 
 def rest():
     '''Just a block to keep scrap code in'''
@@ -505,7 +530,6 @@ def rest():
 
         # # df['SkyCam2_2mOk'] = df['SkyCam2_2mOk'].apply(lambda x: limit(x,0,1))
         # # df['SkyCam3_2mOk'] = df['SkyCam3_2mOk'].apply(lambda x: limit(x,0,1))
-
 
         # do some basic statistics
         if False:
@@ -532,11 +556,9 @@ def rest():
 
                                 if False:
                                     plotPdf('daily.pdf')
-
-
                                 # df.csv_export('dataexport.csv')
 
-
+
 # finally call main (or profile it)
 if __name__ == '__main__':
     if opts.get('-profile_main'):

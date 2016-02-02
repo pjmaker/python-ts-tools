@@ -46,27 +46,24 @@ TODO:
 '''
 
 import datetime
-import time
 import calendar
-import iso8601
-import math
-import statistics
 import glob
 import os
 import sys
-import pytz
 import argparse
-
-from matplotlib.backends.backend_pdf import PdfPages
-from math import isnan
-
 import cProfile
 import pstats
+from math import isnan
 
-import scipy as sp
+import iso8601
+import pytz
+
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-trace", action="store_true", default=False)

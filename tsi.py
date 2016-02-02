@@ -56,6 +56,12 @@ import os
 import sys
 import pytz
 
+from matplotlib.backends.backend_pdf import PdfPages
+from math import isnan
+
+import cProfile
+import pstats
+
 import scipy as sp
 import pandas as pd
 import numpy as np
@@ -171,7 +177,6 @@ def tdsecs(td):
     return (td / np.timedelta64(1, 's'))
 
 # support for nan
-from math import isnan
 nan = float('nan')
 '''float: just nan for us to use'''
 
@@ -379,8 +384,6 @@ def makedt(df):
 
 # wrappers for plot
 
-from matplotlib.backends.backend_pdf import PdfPages
-
 
 def plotPdf(fn, **kwopts):
     print('plotPdf ' + fn)
@@ -431,8 +434,6 @@ if opts.get('-trace'):
     sys.setprofile(tracer)
 
 # profile support
-import cProfile
-import pstats
 
 
 def profile(c):

@@ -171,7 +171,7 @@ def tdsecs(td):
 
     '''
 
-    return (td / np.timedelta64(1, 's'))
+    return td / np.timedelta64(1, 's')
 
 # support for nan
 nan = float('nan')
@@ -375,17 +375,20 @@ def makedt(df):
     del df['tvalue']
 
     def f(x):
+        """NaNs should never been seen."""
         return 0 if isnan(x[0]) else x[1]
 
     for v in tsvars():
         df['w' + v] = df[v] * df['dt']
         df['t' + v] = df[[v, 'dt']].apply(f, axis=1)
     return df
-
+
 # wrappers for plot
 
 
 def plotPdf(fn, **kwopts):
+    """Plot a pdf."""
+
     print('plotPdf ' + fn)
     pp = PdfPages(fn)
     year = 2015
@@ -406,14 +409,13 @@ def plotPdf(fn, **kwopts):
             pp.savefig()
     pp.close()
     os.system('evince ' + fn)
-
+
 # trace code
 #
 # TODO: update to a better tracer sometime
 #
 
 if args.trace:
-    import sys
 
     def tracer(frame, event, arg, indent=[0]):
         # print('tracer', event)
@@ -432,7 +434,7 @@ if args.trace:
         return tracer
 
     sys.setprofile(tracer)
-
+
 # profile support
 
 
@@ -444,7 +446,7 @@ def profile(c):
     cProfile.run('main()', 'tm-stats')
     p = pstats.Stats('tm-stats')
     p.sort_stats('cumulative').print_stats(20)
-
+
 
 # some 1 liners for testing
 def showeval(s):
@@ -513,7 +515,9 @@ def test1_2():
 
 
 def rest2():
+    """A docstring."""
     df = makedt(getdf(['data/*SkyCam1*', 'data/*Fed3Pact*']))
+    return df
 
 
 def rest():

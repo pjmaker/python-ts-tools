@@ -228,8 +228,11 @@ def tsevents():
 
     Returns:
     [(when, var, what)]: similar to an alarm log
+
+    >>> tsreadfiles('data/Test1.csv')
+    >>> tsevents()
+    [(946650600.0, 'Test1', nan), (1434643614.0, 'Test1', nan), (1434644040.0, 'Test1', 20.0), (1434644050.0, 'Test1', nan), (1437236054.535, 'Test1', 50.0), (1437236070.535, 'Test1', nan)]
     '''
-    global hists
     events = []
     for var in sorted(hists):
         for (when, what) in hists[var]:

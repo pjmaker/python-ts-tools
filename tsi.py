@@ -308,7 +308,12 @@ def offset(v, o=0):
 
 
 def fntovar(fn):
-    '''Convert filename to variable name'''
+    '''Convert filename to variable name
+
+    Examples:
+    >>> fntovar('data/R_K_PG_BULM_StatPwrSupplyFailAl_1JAN2000_now.csv')
+    'StatPwrSupplyFailAl'
+    '''
     fn = fn.replace('data/', '')
     fn = fn.replace('R_K_PG_BULM_', '')
     fn = fn.replace('_1JAN2000_now', '')

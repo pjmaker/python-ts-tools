@@ -57,7 +57,6 @@ import pstats
 from math import isnan
 
 import iso8601
-from utc import utc
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -65,6 +64,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 import pandas as pd
 import numpy
 from numpy import nan
+from utc import utc
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-trace", action="store_true", default=False)
@@ -256,7 +256,6 @@ def tsstates():
     Returns:
     [when, {var->what}]: it expands the events into states
     '''
-    global hists
     states = []
     state = {}
     for v in hists:
@@ -463,16 +462,16 @@ if args.trace:
     def tracer(frame, event, arg, indent=[0]):
         # print('tracer', event)
         func = frame.f_code.co_name
-        file = frame.f_code.co_filename
-        if func[0] == '_' or file[0] == '/':
+        filename = frame.f_code.co_filename
+        if func[0] == '_' or filename[0] == '/':
             return
         if event == "call":
             indent[0] += 2
             print("-" * indent[0] + "> call function",
-                  func + ':' + file)
+                  func + ':' + filename)
         elif event == "return":
             print("<" + "-" * indent[0], "exit function",
-                  func + ':' + file)
+                  func + ':' + filename)
         indent[0] -= 2
         return tracer
 

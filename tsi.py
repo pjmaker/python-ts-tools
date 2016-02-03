@@ -375,9 +375,12 @@ def getdf(pats):
     [12 rows x 3 columns]
     '''
     assert isinstance(pats, list), 'argument must be a list'
+    hists.clear()
     for pat in pats:
         tsreadfiles(pat)
-    ts2csv(open('tmpdata.csv', 'w'))
+    f = open('tmpdata.csv', 'w')
+    ts2csv(f)
+    f.close()
     return pd.read_csv('tmpdata.csv', parse_dates=['t'], index_col='t', skipinitialspace=True)
 
 
@@ -498,51 +501,29 @@ def test1():
 
     ** read data/Test1.csv see contents below
 
-    >>> open('data/Test1.csv').read()
     >>> df = makedt(getdf(['data/Test1.csv']))
     >>> print(df)
-    >>> print(df.describe())
-
-    ** statistics - N.B. weighting seems odd
-
-    >>> df['Test1'].mean() # wrongas expected
-    >>> df['Test1'].mean(weighted=df['dt']) # wrong
-    >>> df['Test1'].mean(weighted=df['tTest1']) # wrong
-    >>> df['Test1']*df['tTest1']).sum()/df['tTest1'].sum() # ok
+                                Test1  Remarks            dt        wTest1       tTest1
+    t                                                                                  
+    1999-12-31 14:30:00           NaN      NaN  0.000000e+00           NaN        0.000
+    2015-06-18 16:06:54           NaN      NaN  4.879930e+08           NaN        0.000
+    2015-06-18 16:14:00            20      NaN  4.260000e+02  8.520000e+03      426.000
+    2015-06-18 16:14:10           NaN      NaN  1.000000e+01           NaN        0.000
+    2015-07-18 16:14:14.535000     50      NaN  2.592005e+06  1.296002e+08  2592004.535
+    2015-07-18 16:14:30.535000    NaN      NaN  1.600000e+01           NaN        0.000
+    <BLANKLINE>
+    [6 rows x 5 columns]
+    >>> df['Test1'].mean()
+    35.0
+    >>> df['Test1'].mean(weighted=df['dt'])
+    35.0
+    >>> df['Test1'].mean(weighted=df['tTest1'])
+    35.0
+    >>> (df['Test1']*df['tTest1']).sum()/df['tTest1'].sum()
+    49.995070263280937
     >>> tsmean(df,'Test1')
-
-def test1_2():
-    '''run a simple test
-
-    Note
+    49.995070263280937
     '''
-    print('* test1_2() - basic input and statistics for 2 series')
-    global df  # we need global dataframe so showeval can see it
-    df = {}
-    print('** read data/Test1.csv and data/Test2.csv see contents below')
-    print(open('data/Test1.csv').read())
-    print(open('data/Test2.csv').read())
-    print("df = makedt(getdf(['data/Test1.csv','data/Test2.csv']))")
-    df = makedt(getdf(['data/Test1.csv', 'data/Test2.csv']))
-    showeval("print(df)")
-    showeval("print(df.describe())")
-    print('** statistics - N.B. weighting seems odd')
-    showeval("df['Test1'].mean() # wrongas expected")
-    showeval("df['Test1'].mean(weighted=df['dt']) # wrong")
-    showeval("df['Test1'].mean(weighted=df['tTest1']) # wrong")
-    showeval("(df['Test1']*df['tTest1']).sum()/df['tTest1'].sum() # ok")
-    showeval("tsmean(df,'Test1')")
-    showeval("df['Test2'].mean() # wrongas expected")
-    showeval("df['Test2'].mean(weighted=df['dt']) # wrong")
-    showeval("df['Test2'].mean(weighted=df['tTest2']) # wrong")
-    showeval("(df['Test2']*df['tTest2']).sum()/df['tTest2'].sum() # ok")
-    showeval("tsmean(df,'Test2')")
-
-
-def rest2():
-    """A docstring."""
-    df = makedt(getdf(['data/*SkyCam1*', 'data/*Fed3Pact*']))
-    return df
 
 
 def rest():

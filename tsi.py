@@ -136,8 +136,8 @@ def tformat(s):
     >>> tformat(1000000000.989)
     '2001-09-09T01:46:40.989000+00:00'
 
-    #>>> tformat(tparse('2001-09-09T01:46:40.989000+00:00'))
-    #2001-09-09T01:46:40.989000+00:00
+    >>> tformat(tparse('2001-09-09T01:46:40.989000+00:00'))
+    '2001-09-09T01:46:40.989000+00:00'
     '''
     return datetime.datetime.fromtimestamp(round(s, 3), utc).isoformat('T')
 

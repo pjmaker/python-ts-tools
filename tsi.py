@@ -358,13 +358,28 @@ def getdf(pats):
     '''Return DataFrame from files matching members of pats.
 
     pats - list of glob style pattern matching the files to process.
+
+    >>> getdf(['data/*.csv'])
+                                Test1   Test2   Remarks
+    t                                                  
+    1999-12-31 14:30:00           nan     nan       NaN
+    1999-12-31 14:30:00           nan     nan       NaN
+    2015-06-18 16:06:54           nan     nan       NaN
+    2015-06-18 16:06:54           nan     nan       NaN
+    2015-06-18 16:14:00          20.0     nan       NaN
+    2015-06-18 16:14:02          20.0   120.0       NaN
+    2015-06-18 16:14:10           nan   120.0       NaN
+    2015-06-18 16:14:12.010000    nan     nan       NaN
+    2015-07-18 16:14:14.535000   50.0     nan       NaN
+    2015-07-18 16:14:16.535000   50.0     5.0       NaN
+    2015-07-18 16:14:30.535000    nan     5.0       NaN
+    2015-07-18 16:14:30.535000    nan     nan       NaN
+    <BLANKLINE>
+    [12 rows x 3 columns]
     '''
     for pat in pats:
-        tsreadfiles(pat, fntovar)
+        tsreadfiles(pat)
     ts2csv(open('tmpdata.csv', 'w'))
-    # pylint does not seem to understand what a dataframe is
-    # whence we need to disable the check
-    # pylint:disable=maybe-no-member
     return pd.read_csv('tmpdata.csv', parse_dates=['t']).set_index('t')
 
 

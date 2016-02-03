@@ -86,36 +86,29 @@ def tparse(t):
       timeStamp: if t is correct, otherwise fails
 
     Examples:
-      >>> import tsi
-      >>> print(tsi.tparse('2001-09-09T01:46:40+00:00'))
-      1000000000.0
+    >>> tparse('2001-09-09T01:46:40+00:00')
+    1000000000.0
 
-      >>> import tsi
-      >>> print(tsi.tparse('2001-09-09T01:46:40Z'))
-      1000000000.0
+    >>> tparse('2001-09-09T01:46:40Z')
+    1000000000.0
 
-      >>> import tsi
-      >>> print(tsi.tparse('20010909T014640Z'))
-      1000000000.0
+    >>> tparse('20010909T014640Z')
+    1000000000.0
 
-      >>> import tsi
-      >>> print(tsi.tparse('2001-09-09T01:46:40.123+00:00'))
-      1000000000.123
+    >>> tparse('2001-09-09T01:46:40.123+00:00')
+    1000000000.123
 
-      >>> import tsi
-      >>> print(tsi.tparse('2001-09-09 01:46:40.123+00:00'))
-      1000000000.123
+    >>> tparse('2001-09-09 01:46:40.123+00:00')
+    1000000000.123
 
-      >>> import tsi
-      >>> print(tsi.tparse('2001-09-09 01:46:40.978612+0000'))
-      1000000000.978612
+    >>> tparse('2001-09-09 01:46:40.978612+0000')
+    1000000000.978612
 
-      >>> import tsi
-      >>> print(tsi.tparse('2099-09-09 01:46:40.978612+0000'))
-      4092601600.978612
+    >>> tparse('2099-09-09 01:46:40.978612+0000')
+    4092601600.978612
     '''
-    return iso8601.parse_date(t).timestamp()
-    # return np.datetime64(t)
+    dt = iso8601.parse_date(t)
+    return calendar.timegm(dt.timetuple()) + dt.microsecond / 1000000.
 
 
 def tformat(s):

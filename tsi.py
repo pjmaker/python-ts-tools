@@ -63,7 +63,6 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 import pandas as pd
-import numpy as np
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-trace", action="store_true", default=False)

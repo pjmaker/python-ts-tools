@@ -181,28 +181,29 @@ def tsvars():
     return sorted(hists)
 
 
-def tsread(fn):
-    '''read file fn and convert [(when, what)...]
+def tsread(filename):
+    '''read file and convert [(when, what)...]
 
     Args:
-      fn (str): filename to read which is in ASIM format
+      filename (str): filename to read which is in ASIM format
 
     Returns:
-      [(when,what)]: list of when, what events
+      [(when,what)]: list of (when, what) events
+
+    >>> tsread('data/Test1.csv')
+    [(946650600.0, nan), (1434643614.0, nan), (1434644040.0, 20.0), (1434644050.0, nan), (1437236054.535, 50.0), (1437236070.535, nan)]
     '''
-    print('tsread ' + fn)
-    n = 1
     r = []
-    for s in open(fn):
-        t, v = s.split(',')
-        if n == 1:  # skip the header line
-            assert t == 't'
-            # v is whatever,we don't check
+    for lineno, line in enumerate(open(filename)):
+        tstamp, value = line.split(',')
+        if lineno == 0:
+            # skip the header line
+            assert tstamp == 't'
+            # v is whatever, we don't check
         else:
-            t = tparse(t)
-            v = float(v)
+            t = tparse(tstamp)
+            v = float(value)
             r.append((t, v))
-        n += 1
     return r
 
 

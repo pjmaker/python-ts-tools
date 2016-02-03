@@ -3,6 +3,7 @@ import datetime
 ZERO = datetime.timedelta(0)
 HOUR = datetime.timedelta(hours=1)
 
+
 class UTC(datetime.tzinfo):
     """UTC
 
@@ -53,4 +54,4 @@ class UTC(datetime.tzinfo):
         return "UTC"
 
 
-UTC = utc = UTC() # UTC is a singleton
+UTC = utc = UTC()  # UTC is a singleton

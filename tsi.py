@@ -160,7 +160,6 @@ def tdsecs(td64):
     '''
     return td64 / numpy.timedelta64(1, 's')
 
-# support for reading data in
 
 hists = {}
 '''{var->[(when, what)]}: history of var as a list of (when, what) events

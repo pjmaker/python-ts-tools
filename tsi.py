@@ -389,15 +389,35 @@ def makedt(df):
     df['dt'] - the difference in time between this samples.
     df['w' + var] - the time weighted value for var.
     df['t' + var] - the dt for var if it is not nan otherwise 0
+
+    >>> df = getdf(['data/*.csv'])
+    >>> makedt(df)
+                                Test1  Test2  Remarks            dt        wTest1       tTest1  wTest2  tTest2
+    t                                                                                                         
+    1999-12-31 14:30:00           NaN    NaN      NaN  0.000000e+00           NaN        0.000     NaN       0
+    1999-12-31 14:30:00           NaN    NaN      NaN  0.000000e+00           NaN        0.000     NaN       0
+    2015-06-18 16:06:54           NaN    NaN      NaN  4.879930e+08           NaN        0.000     NaN       0
+    2015-06-18 16:06:54           NaN    NaN      NaN  0.000000e+00           NaN        0.000     NaN       0
+    2015-06-18 16:14:00            20    NaN      NaN  4.260000e+02  8.520000e+03      426.000     NaN       0
+    2015-06-18 16:14:02            20    120      NaN  2.000000e+00  4.000000e+01        2.000     240       2
+    2015-06-18 16:14:10           NaN    120      NaN  8.000000e+00           NaN        0.000     960       8
+    2015-06-18 16:14:12.010000    NaN    NaN      NaN  2.010000e+00           NaN        0.000     NaN       0
+    2015-07-18 16:14:14.535000     50    NaN      NaN  2.592003e+06  1.296001e+08  2592002.525     NaN       0
+    2015-07-18 16:14:16.535000     50      5      NaN  2.000000e+00  1.000000e+02        2.000      10       2
+    2015-07-18 16:14:30.535000    NaN      5      NaN  1.400000e+01           NaN        0.000      70      14
+    2015-07-18 16:14:30.535000    NaN    NaN      NaN  0.000000e+00           NaN        0.000     NaN       0
+    <BLANKLINE>
+    [12 rows x 8 columns]
     '''
-    print('makedt')
     df['tvalue'] = df.index
-    df['dt'] = (df['tvalue']-df['tvalue'].shift()).fillna(0).shift(-1)
-    df['dt'] = df['dt'].apply(tdsecs)
+    df['dt'] = df.tvalue - df.tvalue.shift()
+    df.dt = df.dt.fillna(0)
+    df.dt.shift(-1)
+    df.dt = df.dt.apply(tdsecs)
     del df['tvalue']
 
     def f(x):
-        """NaNs should never been seen."""
+        """NaNs should never be seen."""
         return 0 if isnan(x[0]) else x[1]
 
     for v in tsvars():

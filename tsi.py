@@ -62,8 +62,8 @@ from utc import utc
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-
 import pandas as pd
+from numpy import nan
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-trace", action="store_true", default=False)
@@ -158,10 +158,6 @@ def tdsecs(td):
     3600.0
     '''
     return td.total_seconds()
-
-# support for nan
-nan = float('nan')
-'''float: just nan for us to use'''
 
 # support for reading data in
 

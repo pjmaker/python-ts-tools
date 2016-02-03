@@ -307,12 +307,23 @@ def limit(v, low, high):
 
 
 def scale(v, p=1):
-    '''scale v by p'''
+    '''scale v by p
+
+    >>> scale(10)
+    10
+    >>> scale(10, 2)
+    20
+    '''
     return v*p
 
 
 def offset(v, o=0):
-    '''offset v by o'''
+    '''offset v by o
+    >>> offset(10)
+    10
+    >>> offset(10, 2)
+    12
+    '''
     return v+o
 
 

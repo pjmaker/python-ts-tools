@@ -56,7 +56,7 @@ import pstats
 from math import isnan
 
 import iso8601
-import pytz
+from utc import utc
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -124,27 +124,22 @@ def tformat(s):
       str: formatted time
 
     Examples:
-      >>> import tsi
-      >>> print(tsi.tformat(1000000000.0))
-      2001-09-09T01:46:40+00:00
+    >>> tformat(0)
+    '1970-01-01T00:00:00+00:00'
 
-      >>> import tsi
-      >>> print(tsi.tformat(1000000000.988))
-      2001-09-09T01:46:40.988000+00:00
+    >>> tformat(1000000000.0)
+    '2001-09-09T01:46:40+00:00'
 
-      Note that we get representation errors in the following
-      two tests.
+    >>> tformat(1000000000.988)
+    '2001-09-09T01:46:40.988000+00:00'
 
-      !>>> import tsi
-      !>>> print(tsi.tformat(1000000000.989))
-      2001-09-09T01:46:40.989000+00:00
+    >>> tformat(1000000000.989)
+    '2001-09-09T01:46:40.989000+00:00'
 
-      !>>> import tsi
-      !>>> print(tsi.tformat(tsi.tparse('2001-09-09T01:46:40.989000+00:00')))
-      2001-09-09T01:46:40.989000+00:00
+    #>>> tformat(tparse('2001-09-09T01:46:40.989000+00:00'))
+    #2001-09-09T01:46:40.989000+00:00
     '''
-    return datetime.datetime.fromtimestamp(round(s, 3),
-                                           pytz.UTC).isoformat('T')
+    return datetime.datetime.fromtimestamp(round(s, 3), utc).isoformat('T')
 
 
 def tdsecs(td):

@@ -574,20 +574,7 @@ if __name__ == '__main__':
     if args.profile_main:
         profile('main()')
     elif args.test:
-        doctest.run_docstring_examples(tparse, globals())
-        doctest.run_docstring_examples(tformat, globals())
-        doctest.run_docstring_examples(tdsecs, globals())
-        doctest.run_docstring_examples(fntovar, globals())
-        doctest.run_docstring_examples(tsread, globals())
-        doctest.run_docstring_examples(tsreadfiles, globals())
-        doctest.run_docstring_examples(tsevents, globals())
-        doctest.run_docstring_examples(limit, globals())
-        doctest.run_docstring_examples(scale, globals())
-        doctest.run_docstring_examples(offset, globals())
-        doctest.run_docstring_examples(getdf, globals())
-        doctest.run_docstring_examples(makedt, globals())
-        # Ultimately, we can enable all the tests.
-        # doctest.testmod()
+        doctest.testmod()
     else:
         argparser.print_usage()
         exit(0)

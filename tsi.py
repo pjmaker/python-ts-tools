@@ -491,11 +491,6 @@ def profile(c):
     p.sort_stats('cumulative').print_stats(20)
 
 
-def main():
-    '''Do the work'''
-    test1_2()
-
-
 def test1():
     '''
     run a simple test

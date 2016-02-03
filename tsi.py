@@ -293,7 +293,13 @@ def ts2csvbody(fd):
 
 
 def limit(v, low, high):
-    '''limit v between low and high'''
+    '''limit v between low and high
+
+    >>> limit(4, 10, 20)
+    10
+    >>> limit(24, 10, 20)
+    20
+    '''
     return max(min(v, high), low)
 
 

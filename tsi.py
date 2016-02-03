@@ -45,6 +45,7 @@ TODO:
    #. Break this apart into individual components
 '''
 
+import doctest
 import datetime
 import calendar
 import glob
@@ -67,7 +68,7 @@ import pandas as pd
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-trace", action="store_true", default=False)
 argparser.add_argument("-profile_main", action="store_true", default=False)
-argparser.add_argument("-test", type=int, default=1)
+argparser.add_argument("-test", action="store_true", default=False)
 args = argparser.parse_args()
 
 # option setup
@@ -575,10 +576,25 @@ def rest():
                                     plotPdf('daily.pdf')
                                 # df.csv_export('dataexport.csv')
 
-
-# finally call main (or profile it)
+# # finally call main (or profile it)
 if __name__ == '__main__':
     if args.profile_main:
         profile('main()')
+    elif args.test:
+        doctest.run_docstring_examples(tparse, globals())
+        doctest.run_docstring_examples(tformat, globals())
+        doctest.run_docstring_examples(tdsecs, globals())
+        doctest.run_docstring_examples(fntovar, globals())
+        doctest.run_docstring_examples(tsread, globals())
+        doctest.run_docstring_examples(tsreadfiles, globals())
+        doctest.run_docstring_examples(tsevents, globals())
+        doctest.run_docstring_examples(limit, globals())
+        doctest.run_docstring_examples(scale, globals())
+        doctest.run_docstring_examples(offset, globals())
+        doctest.run_docstring_examples(getdf, globals())
+        doctest.run_docstring_examples(makedt, globals())
+        # Ultimately, we can enable all the tests.
+        # doctest.testmod()
     else:
-        main()
+        argparser.print_usage()
+        exit(0)

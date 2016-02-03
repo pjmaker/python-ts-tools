@@ -164,11 +164,12 @@ def tdsecs(td):
       float: representation in seconds of delta
 
     Examples:
-       None
-
+    >>> import datetime
+    >>> dt = datetime.timedelta(hours=1)
+    >>> tdsecs(dt)
+    3600.0
     '''
-
-    return td / np.timedelta64(1, 's')
+    return td.total_seconds()
 
 # support for nan
 nan = float('nan')

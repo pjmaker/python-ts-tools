@@ -142,22 +142,22 @@ def tformat(s):
     return datetime.datetime.fromtimestamp(round(s, 3), utc).isoformat('T')
 
 
-def tdsecs(td):
+def tdsecs(td64):
     '''convert a timedelta to a number in seconds
 
     Args:
-      ts (timedelta): a timedelta from pandas/numpy
+      td64 (timedelta64): a timedelta from pandas
 
     Returns:
       float: representation in seconds of delta
 
     Examples:
-    >>> import datetime
-    >>> dt = datetime.timedelta(hours=1)
-    >>> tdsecs(dt)
-    3600.0
+    >>> import numpy
+    >>> delta = numpy.timedelta64(487993014000000000,'ns')
+    >>> tdsecs(delta)
+    487993014.0
     '''
-    return td.total_seconds()
+    return td64 / numpy.timedelta64(1, 's')
 
 # support for reading data in
 

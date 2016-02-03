@@ -207,21 +207,19 @@ def tsread(filename):
     return r
 
 
-def tsreadfiles(pat, rename):
-    '''Read all files matching glob pat and rename var using rename
+def tsreadfiles(pattern):
+    '''Read all files matching glob pattern and map filename to variable
+    name using fntovar.
 
-    Args:
-
-    pat (str): glob pattern for matching files
-    rename (hook): function renaming variables from file to varname
-
-    Returns:
-    nothing
+    >>> tsreadfiles('data/Test1.csv')
+    >>> len(hists)
+    1
+    >>> hists['Test1']
+    [(946650600.0, nan), (1434643614.0, nan), (1434644040.0, 20.0), (1434644050.0, nan), (1437236054.535, 50.0), (1437236070.535, nan)]
     '''
-    global hists
-    for fn in glob.glob(pat):
-        var = rename(fn)
-        hists[var] = tsread(fn)
+    for filename in glob.glob(pattern):
+        varname = fntovar(filename)
+        hists[varname] = tsread(filename)
 
 
 def tsevents():

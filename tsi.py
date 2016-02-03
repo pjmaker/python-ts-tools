@@ -282,8 +282,8 @@ def ts2csvheader(fd):
     '''print the header line'''
     print >>fd, 't,',
     for i in tsvars():
-        print >>fd, i + ',',
-    print >> fd, 'Remarks'
+        print >>fd, str(i) + ',',
+    print >>fd, 'Remarks'
 
 
 def ts2csvbody(fd):
@@ -291,7 +291,7 @@ def ts2csvbody(fd):
     for (when, state) in tsstates():
         print >>fd, tformat(when) + ',',
         for v in tsvars():
-            print >> fd, state[v] + ',',
+            print >> fd, str(state[v]) + ',',
         print >>fd
 
 

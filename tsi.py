@@ -357,27 +357,28 @@ def getdf(pats):
     pats - list of glob style pattern matching the files to process.
 
     >>> getdf(['data/*.csv'])
-                                Test1   Test2   Remarks
-    t                                                  
-    1999-12-31 14:30:00           nan     nan       NaN
-    1999-12-31 14:30:00           nan     nan       NaN
-    2015-06-18 16:06:54           nan     nan       NaN
-    2015-06-18 16:06:54           nan     nan       NaN
-    2015-06-18 16:14:00          20.0     nan       NaN
-    2015-06-18 16:14:02          20.0   120.0       NaN
-    2015-06-18 16:14:10           nan   120.0       NaN
-    2015-06-18 16:14:12.010000    nan     nan       NaN
-    2015-07-18 16:14:14.535000   50.0     nan       NaN
-    2015-07-18 16:14:16.535000   50.0     5.0       NaN
-    2015-07-18 16:14:30.535000    nan     5.0       NaN
-    2015-07-18 16:14:30.535000    nan     nan       NaN
+                                Test1  Test2  Remarks
+    t                                                
+    1999-12-31 14:30:00           NaN    NaN      NaN
+    1999-12-31 14:30:00           NaN    NaN      NaN
+    2015-06-18 16:06:54           NaN    NaN      NaN
+    2015-06-18 16:06:54           NaN    NaN      NaN
+    2015-06-18 16:14:00            20    NaN      NaN
+    2015-06-18 16:14:02            20    120      NaN
+    2015-06-18 16:14:10           NaN    120      NaN
+    2015-06-18 16:14:12.010000    NaN    NaN      NaN
+    2015-07-18 16:14:14.535000     50    NaN      NaN
+    2015-07-18 16:14:16.535000     50      5      NaN
+    2015-07-18 16:14:30.535000    NaN      5      NaN
+    2015-07-18 16:14:30.535000    NaN    NaN      NaN
     <BLANKLINE>
     [12 rows x 3 columns]
     '''
+    assert isinstance(pats, list), 'argument must be a list'
     for pat in pats:
         tsreadfiles(pat)
     ts2csv(open('tmpdata.csv', 'w'))
-    return pd.read_csv('tmpdata.csv', parse_dates=['t']).set_index('t')
+    return pd.read_csv('tmpdata.csv', parse_dates=['t'], index_col='t', skipinitialspace=True)
 
 
 def makedt(df):

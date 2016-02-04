@@ -76,6 +76,41 @@ args = argparser.parse_args()
 pd.options.display.width = 500
 
 
+# regularise the data
+def regularise(series, freq, start=None, end=None):
+    """Take a time series of irregular data and reindex it so that it is a
+    regular time series.  Start and end timestamps can be specified.
+    Otherwise, the first and last timestamps in the series are used.
+
+    Examples:
+    >>> dates = pd.date_range('20130101', periods=6)
+    >>> numpy.random.seed(123)
+    >>> df = pd.DataFrame(numpy.random.randn(6,1), index=dates, columns=list('A'))
+    >>> regularise(df, freq='720Min')
+                                A
+    2013-01-01 00:00:00 -1.085631
+    2013-01-01 12:00:00 -1.085631
+    2013-01-02 00:00:00  0.997345
+    2013-01-02 12:00:00  0.997345
+    2013-01-03 00:00:00  0.282978
+    2013-01-03 12:00:00  0.282978
+    2013-01-04 00:00:00 -1.506295
+    2013-01-04 12:00:00 -1.506295
+    2013-01-05 00:00:00 -0.578600
+    2013-01-05 12:00:00 -0.578600
+    2013-01-06 00:00:00  1.651437
+    <BLANKLINE>
+    [11 rows x 1 columns]
+
+    """
+    if start is None:
+        start = series.index[0]
+    if end is None:
+        end = series.index[-1]
+    newindex = pd.date_range(start, end, freq=freq)
+    return series.reindex(newindex, method='ffill')
+
+
 # timestamp support
 def tparse(t):
     '''convert a ISO8601 timestamp to a float of seconds since UNIX epoch.

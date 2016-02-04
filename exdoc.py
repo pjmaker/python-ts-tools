@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# exdoc.py - just a python documentation example which was 
+# exdoc.py - just a python documentation example which was
 #    extracted from the web.
-# 
+#
 
 """Example Google style docstrings.
 
@@ -278,10 +278,10 @@ class ExampleClass(object):
     def _private_without_docstring(self):
         pass
 
+
 def main():
     '''The main program'''
     print('hello')
 
 if __name__ == '__main__':
     main
- 
